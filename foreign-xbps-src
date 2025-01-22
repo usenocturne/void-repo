@@ -5,11 +5,11 @@
 arch="$(uname -m)"
 
 chroot_dir="$XDG_DATA_HOME/nocturne-void-repo-chroot"
-mkdir -p "$chroot_dir/root"
 
+# TODO: maybe store a hash and pin this to specific version, or find some way to update automatically
 tarball_fname="xbps-static-latest.$arch-musl.tar.xz"
-if [ ! -f "$chroot_dir/$tarball_fname" ]; then
-    # TODO: maybe store a hash and pin this to specific version
+if [ ! -f "$chroot_dir/$tarball_fname" ] || [ ! -d "$chroot_dir/root" ]; then
+    mkdir -p "$chroot_dir/root"
     curl -Lo "$chroot_dir/$tarball_fname" "https://repo-default.voidlinux.org/static/$tarball_fname"
     tar -xvf "$chroot_dir/$tarball_fname" -C "$chroot_dir/root"
 fi
