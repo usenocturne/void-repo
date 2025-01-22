@@ -19,7 +19,6 @@ if __name__ == "__main__":
 
     rmtree_if_exists("./common")
     rmtree_if_exists("./etc")
-    rmtree_if_exists("./srcpkgs")
     Path("./xbps-src").unlink(missing_ok=True)
 
     vendor_line = "This file is vendored from https://github.com/void-linux/void-packages.\n"
@@ -52,4 +51,5 @@ if __name__ == "__main__":
         shutil.copytree(source_path, dest_path)
         shutil.copyfile("./common/COPYING", dest_path + "/COPYING")
 
+    rmtree_if_exists("./srcpkgs/base-files")
     vendor_srcpkg("base-files")
