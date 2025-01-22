@@ -17,7 +17,7 @@ if __name__ == "__main__":
 
     void_packages_path = sys.argv[1]
 
-    rmtree_if_exists("./common/xbps-src")
+    rmtree_if_exists("./common")
     rmtree_if_exists("./etc")
     rmtree_if_exists("./srcpkgs")
     Path("./xbps-src").unlink(missing_ok=True)
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     xbps_src_f = Path("./xbps-src")
     xbps_src_f.chmod(xbps_src_f.stat().st_mode | stat.S_IEXEC)
 
-    shutil.copytree(void_packages_path + "/common/xbps-src", "./common/xbps-src")
+    shutil.copytree(void_packages_path + "/common", "./common")
     shutil.copytree(void_packages_path + "/etc", "./etc")
 
     with open(void_packages_path + "/COPYING", "r") as f:
