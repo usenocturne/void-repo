@@ -5,20 +5,25 @@ import shutil
 import stat
 import sys
 
+def rmtree_if_exists(path: str) -> None:
+    try:
+        shutil.rmtree(path)
+    except FileNotFoundError:
+        pass
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise SystemExit("Usage: ./vendor-xbps-src.py [path to void-packages repo]")
 
     void_packages_path = sys.argv[1]
 
-    try:
-        shutil.rmtree("./common/xbps-src")
-    except FileNotFoundError:
-        pass
+    rmtree_if_exists("./common/xbps-src")
+    rmtree_if_exists("./etc")
+    rmtree_if_exists("./srcpkgs")
     Path("./xbps-src").unlink(missing_ok=True)
 
+    vendor_line = "This file is vendored from https://github.com/void-linux/void-packages.\n"
     with open(void_packages_path + "/COPYING", "r") as f:
-        vendor_line = "This file is vendored from https://github.com/void-linux/void-packages.\n"
         vendor_text = [vendor_line + "# \n"] + f.readlines()
         license_text = ["# " + s for s in vendor_text]
     with open(void_packages_path + "/xbps-src", "r") as f:
@@ -32,4 +37,19 @@ if __name__ == "__main__":
     xbps_src_f.chmod(xbps_src_f.stat().st_mode | stat.S_IEXEC)
 
     shutil.copytree(void_packages_path + "/common/xbps-src", "./common/xbps-src")
-    shutil.copyfile(void_packages_path + "/COPYING", "./common/COPYING")
+    shutil.copytree(void_packages_path + "/etc", "./etc")
+
+    with open(void_packages_path + "/COPYING", "r") as f:
+        copying_file_content = [vendor_line, "\n"] + f.readlines()
+    with open("./common/COPYING", "w+") as f:
+        f.writelines(copying_file_content)
+
+    shutil.copyfile("./common/COPYING", "./etc/COPYING")
+
+    def vendor_srcpkg(name: str) -> None:
+        source_path = void_packages_path + "/srcpkgs/" + name
+        dest_path = "./srcpkgs/" + name
+        shutil.copytree(source_path, dest_path)
+        shutil.copyfile("./common/COPYING", dest_path + "/COPYING")
+
+    vendor_srcpkg("base-files")
