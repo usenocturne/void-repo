@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
+import shutil
 import stat
 import sys
 
@@ -9,6 +10,12 @@ if __name__ == "__main__":
         raise SystemExit("Usage: ./vendor-xbps-src.py [path to void-packages repo]")
 
     void_packages_path = sys.argv[1]
+
+    try:
+        shutil.rmtree("./common/xbps-src")
+    except FileNotFoundError:
+        pass
+    Path("./xbps-src").unlink(missing_ok=True)
 
     with open(void_packages_path + "/COPYING", "r") as f:
         vendor_line = "This file is vendored from https://github.com/void-linux/void-packages.\n"
@@ -23,3 +30,6 @@ if __name__ == "__main__":
         f.writelines(xbps_src_text)
     xbps_src_f = Path("./xbps-src")
     xbps_src_f.chmod(xbps_src_f.stat().st_mode | stat.S_IEXEC)
+
+    shutil.copytree(void_packages_path + "/common/xbps-src", "./common/xbps-src")
+    shutil.copyfile(void_packages_path + "/COPYING", "./common/COPYING")
