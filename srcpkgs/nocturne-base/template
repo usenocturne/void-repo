@@ -1,0 +1,40 @@
+pkgname=nocturne-base
+version=1.0
+revision=1
+build_style=meta
+short_desc="Base packages for Nocturne image"
+maintainer="Nocturne Team <team@usenocturne.com>"
+license="Public Domain"
+homepage="https://usenocturne.com"
+
+depends="
+    base-files coreutils findutils diffutils dash bash grep gzip sed gawk
+    util-linux which tar shadow procps-ng iana-etc xbps tzdata
+    runit-void
+    removed-packages
+    sudo file less man-pages e2fsprogs dhcpcd nvi vim nano
+
+    nocturne-ui nocturned
+"
+
+# TODO: make a dev image with extra tools like openssh, more cli tools, etc
+
+# f2fs-tools? dosfstools?
+# ? kbd, iproute2, iputils, iw, wpa_supplicant, kmod, acpid, eudev
+# ? pciutils, usbutils
+# for dev: openssh
+
+# ===== below: presets to look at
+
+# base-container
+# base-files coreutils findutils diffutils dash grep gzip sed gawk
+# util-linux which tar shadow procps-ng iana-etc xbps nvi tzdata
+# runit-void removed-packages"
+
+# base-system
+# base-files>=0.77 ncurses coreutils findutils diffutils libgcc
+# dash bash grep gzip file sed gawk less util-linux which tar man-pages
+# mdocml>=1.13.3 shadow e2fsprogs btrfs-progs xfsprogs f2fs-tools dosfstools
+# procps-ng tzdata pciutils usbutils iana-etc openssh dhcpcd
+# kbd iproute2 iputils iw wpa_supplicant xbps nvi sudo wifi-firmware
+# void-artwork traceroute ethtool kmod acpid eudev runit-void removed-packages"
