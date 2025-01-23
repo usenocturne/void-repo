@@ -1,0 +1,17 @@
+pkgname=nocturned
+version=0.0.0
+revision=1
+build_style=go
+go_import_path=github.com/usenocturne/nocturned
+short_desc="Host communication daemon for nocturne-ui"
+maintainer="Nocturne Team <team@usenocturne.com>"
+license="MIT"
+homepage="https://github.com/usenocturne/nocturned"
+#distfiles="https://github.com/usenocturne/nocturned/archive/refs/tags/v${version}.tar.gz"
+#checksum="fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
+distfiles="https://github.com/usenocturne/nocturned/archive/add152fbd7dae780e8fe945cebeb4743a30ce556.tar.gz"
+checksum="dd884fca887d05cf0ebfe862713278503786d5952d55259704e59312fa6957c6"
+
+post_install() {
+    vlicense LICENSE
+}
