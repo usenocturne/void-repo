@@ -1,0 +1,49 @@
+pkgname=nocturne-ui
+version=3.0.0.beta.1
+revision=1
+short_desc="A web application for nocturne-image and the Spotify Car Thing"
+# TODO: is this right or should it be makedepends
+hostmakedepends="npm"
+depends="nodejs"
+maintainer="Nocturne Team <team@usenocturne.com>"
+license="GPL-3.0-only"
+homepage="https://github.com/usenocturne/nocturned"
+#distfiles="https://github.com/usenocturne/nocturne-ui/archive/refs/tags/v${version/.b/-b}.tar.gz"
+#checksum=""
+distfiles="https://github.com/usenocturne/nocturne-ui/archive/2d77d1377e601764285e15e09b5731d5e9990209.tar.gz"
+checksum="8b19df7fa33a1059255c91f638e2bd4895ff81aded868462ade433fdc02083e6"
+
+post_extract() {
+    cp "${FILESDIR}/package-lock.json" .
+}
+
+do_configure() {
+    npm ci
+}
+
+do_build() {
+    npm run build
+}
+
+do_install() {
+    # FIXME: check if these are the right paths
+    # https://github.com/usenocturne/nocturne-ui/blob/2d77d1377e601764285e15e09b5731d5e9990209/flake.nix#L88
+
+    # TODO: is vmkdir necessary here
+    vmkdir usr/share/nocturne
+    vcopy .next/standalone/ usr/share/nocturne/standalone
+    vcopy .next/static/ usr/share/nocturne/.next/static
+    vcopy public/ usr/share/nocturne/public
+    vcopy prodserver.js usr/share/nocturne/prodserver.js
+
+    # TODO: certs, should be in settings
+
+    vbin nocturne-ui.sh nocturne-ui
+    # TODO: make the actual service
+    vsv nocturne-ui
+}
+
+post_install() {
+    vlicense LICENSE
+}
+

@@ -1,0 +1,2 @@
+# TODO: fix update-check, because the hyphens break the grep so it finds no versions
+version=${version/.b/-b}
