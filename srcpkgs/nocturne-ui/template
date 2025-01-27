@@ -29,7 +29,7 @@ do_install() {
 
     # TODO: is vmkdir necessary here
     vmkdir usr/share/nocturne
-    vcopy .next/standalone/ usr/share/nocturne/standalone
+    vcopy .next/standalone/. usr/share/nocturne/
     vmkdir usr/share/nocturne/.next
     vcopy .next/static/ usr/share/nocturne/.next/static
     vcopy public/ usr/share/nocturne/public
