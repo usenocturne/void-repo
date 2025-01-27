@@ -1,0 +1,3 @@
+https://localhost:3500 {
+    reverse_proxy localhost:3501
+}

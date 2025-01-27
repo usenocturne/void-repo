@@ -1,5 +1,3 @@
 #!/bin/sh
-export HOST="0.0.0.0"
-export PORT="3500"
 exec 2>&1
-exec nocturne-ui
+exec caddy run --config /usr/share/nocturne-ui/Caddyfile

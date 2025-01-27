@@ -5,7 +5,7 @@ short_desc="A web application for nocturne-image and the Spotify Car Thing"
 # TODO: is this right or should it be makedepends
 # may get rid of curl and unzip after removing bun.sh/install
 hostmakedepends="pnpm"
-depends="nodejs nocturned"
+depends="nodejs caddy nocturned"
 maintainer="Nocturne Team <team@usenocturne.com>"
 license="GPL-3.0-only"
 homepage="https://github.com/usenocturne/nocturned"
@@ -15,6 +15,7 @@ distfiles="https://github.com/usenocturne/nocturne-ui/archive/ce53b5845552e8d2d4
 checksum="54aeed509449436762b6c591cd7595395b7c0d43ec9c8a27a33d13995ce6351b"
 
 do_configure() {
+    # FIXME: after switching from bun to pnpm, use the lockfile
     #pnpm install --frozen-lockfile
     pnpm install
 }
@@ -24,25 +25,23 @@ do_build() {
 }
 
 do_install() {
-    # FIXME: check if these are the right paths
     # https://github.com/usenocturne/nocturne-ui/blob/2d77d1377e601764285e15e09b5731d5e9990209/flake.nix#L88
-
-    # TODO: is vmkdir necessary here
-    vmkdir usr/share/nocturne
-    vcopy .next/standalone/. usr/share/nocturne/
-    vmkdir usr/share/nocturne/.next
-    vcopy .next/static/ usr/share/nocturne/.next/static
-    vcopy public/ usr/share/nocturne/public
-    vcopy prodserver.js usr/share/nocturne/prodserver.js
-
-    # TODO: certs, should be in settings
+    vmkdir usr/share/nocturne-ui
+    vcopy .next/standalone/. usr/share/nocturne-ui/
+    vmkdir usr/share/nocturne-ui/.next
+    vcopy .next/static/ usr/share/nocturne-ui/.next/static
+    vcopy public/ usr/share/nocturne-ui/public
+    vcopy "${FILESDIR}/prodserver.js" usr/share/nocturne-ui/
+    vcopy "${FILESDIR}/Caddyfile" usr/share/nocturne-ui/
 
     vbin "${FILESDIR}/nocturne-ui.sh" nocturne-ui
-    # TODO: make the actual service
     vsv $pkgname
+    vsv ${pkgname}-prodserver
 }
 
 post_install() {
     vlicense LICENSE
+
+    mkdir -p /etc/runit/runsvdir/default/
 }
 

@@ -1,0 +1,5 @@
+#!/bin/sh
+export HOST="127.0.0.1"
+export PORT="3501"
+exec 2>&1
+exec node /usr/share/nocturne-ui/prodserver.js
