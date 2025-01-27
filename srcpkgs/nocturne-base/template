@@ -1,5 +1,5 @@
 pkgname=nocturne-base
-version=1.0
+version=0.1.0
 revision=1
 build_style=meta
 short_desc="Base packages for Nocturne image"
