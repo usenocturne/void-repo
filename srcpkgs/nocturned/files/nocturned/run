@@ -1,0 +1,4 @@
+#!/bin/sh
+PORT=5000
+exec 2>&1
+exec nocturned

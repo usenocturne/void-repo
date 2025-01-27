@@ -14,4 +14,5 @@ checksum="dd884fca887d05cf0ebfe862713278503786d5952d55259704e59312fa6957c6"
 
 post_install() {
     vlicense LICENSE
+    vsv $pkgname
 }
