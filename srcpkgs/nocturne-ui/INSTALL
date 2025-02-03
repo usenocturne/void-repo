@@ -1,6 +1,0 @@
-case "$ACTION" in
-post)
-    ln -s /etc/sv/nocturne-ui-prodserver /etc/runit/runsvdir/default/
-    ln -s /etc/sv/nocturne-ui /etc/runit/runsvdir/default/
-    ;;
-esac
